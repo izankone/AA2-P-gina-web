@@ -1,28 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useDataStore } from '../../stores/data'
+import { useCategoryStore } from '../../stores/categories'
 import type { Category } from '../../core/interfaces'
+import CategoryItem from './components/CategoryItem.vue'
 import ConfirmDialog from '../../components/common/ConfirmDialog.vue'
 
-const dataStore = useDataStore()
+const categoryStore = useCategoryStore()
 const confirmDialog = ref()
 
-const headers = [
-  { title: 'ID', key: 'id' },
-  { title: 'Nombre', key: 'name' },
-  { title: 'Descripción', key: 'description' },
-  { title: 'Acciones', key: 'actions', sortable: false },
-]
-
 onMounted(async () => {
-  await dataStore.fetchCategories()
+  await categoryStore.fetchCategories()
 })
 
 async function deleteItem(item: Category) {
   if (await confirmDialog.value.open('Eliminar Categoría', '¿Estás seguro? Esta acción no se puede deshacer.')) {
-     // await dataStore.deleteCategory(item.id)
-     // Aquí mostraríamos un snackbar en vez de alert, pero por ahora solo evitamos el alert.
-     console.log('Borrado simulado')
+     await categoryStore.deleteCategory(item.id)
   }
 }
 </script>
@@ -34,21 +26,32 @@ async function deleteItem(item: Category) {
       <v-btn color="primary" to="/admin/categories/create" prepend-icon="mdi-plus">Nueva Categoría</v-btn>
     </div>
 
-    <v-data-table
-      :headers="headers"
-      :items="dataStore.categories"
-      :loading="dataStore.loading"
-      class="elevation-1"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="$router.push(`/admin/categories/edit/${item.id}`)">
-          mdi-pencil
-        </v-icon>
-         <v-icon size="small" color="error" @click="deleteItem(item)">
-          mdi-delete
-        </v-icon>
-      </template>
-    </v-data-table>
+    <v-row v-if="categoryStore.loading">
+        <v-col cols="12" class="text-center">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </v-col>
+    </v-row>
+
+    <v-row v-else>
+        <v-col
+            v-for="category in categoryStore.categories"
+            :key="category.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+        >
+            <CategoryItem
+                :category="category"
+                @edit="$router.push(`/admin/categories/edit/${$event}`)"
+                @delete="deleteItem"
+            />
+        </v-col>
+    </v-row>
+    
+    <v-alert v-if="!categoryStore.loading && categoryStore.categories.length === 0" type="info" class="mt-4">
+        No hay categorías registradas.
+    </v-alert>
     
     <ConfirmDialog ref="confirmDialog" />
   </div>

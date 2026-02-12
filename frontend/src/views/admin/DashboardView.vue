@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useDataStore } from '../../stores/data'
+import { useProductStore } from '../../stores/products'
+import { useCategoryStore } from '../../stores/categories'
 
-const dataStore = useDataStore()
+const productStore = useProductStore()
+const categoryStore = useCategoryStore()
 
 onMounted(async () => {
-    await dataStore.fetchProducts()
-    await dataStore.fetchCategories()
+    await productStore.fetchProducts()
+    await categoryStore.fetchCategories()
 })
 </script>
 
@@ -18,7 +20,7 @@ onMounted(async () => {
         <v-card color="primary" theme="dark">
             <v-card-title class="text-h5">Productos Totales</v-card-title>
             <v-card-text class="text-h2 text-center py-4">
-                {{ dataStore.products.length }}
+                {{ productStore.products.length }}
             </v-card-text>
         </v-card>
       </v-col>
@@ -26,7 +28,7 @@ onMounted(async () => {
         <v-card color="secondary" theme="dark">
             <v-card-title class="text-h5">Categorías</v-card-title>
             <v-card-text class="text-h2 text-center py-4">
-                {{ dataStore.categories.length }}
+                {{ categoryStore.categories.length }}
             </v-card-text>
         </v-card>
       </v-col>

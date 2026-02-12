@@ -3,11 +3,11 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { useDataStore } from '../../stores/data'
+import { useCategoryStore } from '../../stores/categories'
 
 const route = useRoute()
 const router = useRouter()
-const dataStore = useDataStore()
+const categoryStore = useCategoryStore()
 
 const isEdit = route.params.id !== undefined
 const id = isEdit ? Number(route.params.id) : null
@@ -24,8 +24,8 @@ const { value: description, errorMessage: descriptionError } = useField('descrip
 
 onMounted(async () => {
     if (isEdit) {
-        await dataStore.fetchCategories()
-        const category = dataStore.categories.find(c => c.id === id)
+        await categoryStore.fetchCategories()
+        const category = categoryStore.categories.find(c => c.id === id)
         if (category) {
             name.value = category.name
             description.value = category.description
@@ -34,7 +34,11 @@ onMounted(async () => {
 })
 
 const submit = handleSubmit(async (values) => {
-    // Implement create/update category in store logic
+    if (isEdit) {
+        await categoryStore.updateCategory({ id, ...values } as any)
+    } else {
+        await categoryStore.createCategory(values as any)
+    }
     router.push('/admin/categories')
 })
 </script>

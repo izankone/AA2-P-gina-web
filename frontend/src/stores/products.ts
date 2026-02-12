@@ -1,27 +1,18 @@
-// src/stores/data.ts
+
+// src/stores/products.ts
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Product, Category } from '../core/interfaces'
+import type { Product } from '../core/interfaces'
 import * as api from '../core/services/api'
 
-export const useDataStore = defineStore('data', () => {
+export const useProductStore = defineStore('products', () => {
     const products = ref<Product[]>([])
-    const categories = ref<Category[]>([])
     const loading = ref(false)
 
     async function fetchProducts() {
         loading.value = true
         try {
             products.value = await api.get<Product[]>('products')
-        } finally {
-            loading.value = false
-        }
-    }
-
-    async function fetchCategories() {
-        loading.value = true
-        try {
-            categories.value = await api.get<Category[]>('categories')
         } finally {
             loading.value = false
         }
@@ -45,10 +36,8 @@ export const useDataStore = defineStore('data', () => {
 
     return {
         products,
-        categories,
         loading,
         fetchProducts,
-        fetchCategories,
         createProduct,
         updateProduct,
         deleteProduct

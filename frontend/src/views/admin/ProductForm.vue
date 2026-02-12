@@ -3,11 +3,13 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { useDataStore } from '../../stores/data'
+import { useProductStore } from '../../stores/products'
+import { useCategoryStore } from '../../stores/categories'
 
 const route = useRoute()
 const router = useRouter()
-const dataStore = useDataStore()
+const productStore = useProductStore()
+const categoryStore = useCategoryStore()
 
 const isEdit = route.params.id !== undefined
 const id = isEdit ? Number(route.params.id) : null
@@ -33,9 +35,16 @@ const { value: categoryId, errorMessage: categoryIdError } = useField('categoryI
 const { value: image, errorMessage: imageError } = useField('image')
 
 onMounted(async () => {
-  await dataStore.fetchCategories()
+  await categoryStore.fetchCategories()
   if (isEdit) {
-    const product = dataStore.products.find(p => p.id === id)
+    // Si no tenemos los productos cargados, quizás deberíamos cargar, 
+    // pero asumimos que venimos del listado o cargamos todo.
+    // Para asegurar, podríamos llamar a fetchProducts si products esta vacío.
+    if (productStore.products.length === 0) {
+        await productStore.fetchProducts()
+    }
+    
+    const product = productStore.products.find(p => p.id === id)
     if (product) {
         name.value = product.name
         price.value = product.price
@@ -48,9 +57,9 @@ onMounted(async () => {
 
 const submit = handleSubmit(async (values) => {
   if (isEdit) {
-    await dataStore.updateProduct({ id, ...values } as any)
+    await productStore.updateProduct({ id, ...values } as any)
   } else {
-    await dataStore.createProduct(values as any)
+    await productStore.createProduct(values as any)
   }
   router.push('/admin/products')
 })
@@ -85,7 +94,7 @@ const submit = handleSubmit(async (values) => {
                 <v-select
                     v-model="categoryId"
                     :error-messages="categoryIdError"
-                    :items="dataStore.categories"
+                    :items="categoryStore.categories"
                     item-title="name"
                     item-value="id"
                     label="Categoría"

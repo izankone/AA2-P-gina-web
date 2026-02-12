@@ -1,28 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { useDataStore } from '../../stores/data'
+import { useProductStore } from '../../stores/products'
 import type { Product } from '../../core/interfaces'
+import ProductItem from './components/ProductItem.vue'
 import ConfirmDialog from '../../components/common/ConfirmDialog.vue'
 
-const dataStore = useDataStore()
+const productStore = useProductStore()
 const confirmDialog = ref() // Template ref
 
-const headers = [
-  { title: 'ID', key: 'id' },
-  { title: 'Imagen', key: 'image' },
-  { title: 'Nombre', key: 'name' },
-  { title: 'Precio', key: 'price' },
-  { title: 'Stock', key: 'stock' },
-  { title: 'Acciones', key: 'actions', sortable: false },
-]
-
 onMounted(async () => {
-  await dataStore.fetchProducts()
+  await productStore.fetchProducts()
 })
 
 async function deleteItem(item: Product) {
   if (await confirmDialog.value.open('Eliminar Producto', '¿Estás seguro de que quieres eliminar este producto?')) {
-    await dataStore.deleteProduct(item.id)
+    await productStore.deleteProduct(item.id)
   }
 }
 </script>
@@ -34,29 +26,32 @@ async function deleteItem(item: Product) {
       <v-btn color="primary" to="/admin/products/create" prepend-icon="mdi-plus">Nuevo Producto</v-btn>
     </div>
 
-    <v-data-table
-      :headers="headers"
-      :items="dataStore.products"
-      :loading="dataStore.loading"
-      class="elevation-1"
-    >
-      <template v-slot:item.image="{ item }">
-        <v-img :src="item.image" width="50" height="50" cover class="bg-grey-lighten-2 rounded"></v-img>
-      </template>
+    <v-row v-if="productStore.loading">
+        <v-col cols="12" class="text-center">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </v-col>
+    </v-row>
 
-      <template v-slot:item.price="{ item }">
-        {{ item.price }} €
-      </template>
-
-      <template v-slot:item.actions="{ item }">
-        <v-icon size="small" class="me-2" @click="$router.push(`/admin/products/edit/${item.id}`)">
-          mdi-pencil
-        </v-icon>
-        <v-icon size="small" color="error" @click="deleteItem(item)">
-          mdi-delete
-        </v-icon>
-      </template>
-    </v-data-table>
+    <v-row v-else>
+        <v-col
+            v-for="product in productStore.products"
+            :key="product.id"
+            cols="12"
+            sm="6"
+            md="4"
+            lg="3"
+        >
+            <ProductItem
+                :product="product"
+                @edit="$router.push(`/admin/products/edit/${$event}`)"
+                @delete="deleteItem"
+            />
+        </v-col>
+    </v-row>
+    
+    <v-alert v-if="!productStore.loading && productStore.products.length === 0" type="info" class="mt-4">
+        No hay productos registrados.
+    </v-alert>
 
     <ConfirmDialog ref="confirmDialog" />
   </div>
