@@ -12,13 +12,30 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: HomeView
+            component: () => import('../layouts/MainLayout.vue'),
+            children: [
+                {
+                    path: '',
+                    name: 'home',
+                    component: HomeView
+                }
+            ]
         },
         {
-            path: '/login',
-            name: 'login',
-            component: LoginView
+            path: '/',
+            component: () => import('../layouts/AuthLayout.vue'),
+            children: [
+                {
+                    path: 'login',
+                    name: 'login',
+                    component: LoginView
+                },
+                {
+                    path: 'register',
+                    name: 'register',
+                    component: () => import('../views/RegisterView.vue')
+                }
+            ]
         },
         {
             path: '/admin',

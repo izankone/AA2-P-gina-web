@@ -5,28 +5,13 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import router from './router'
 import { createPinia } from 'pinia'
-import { createI18n } from 'vue-i18n'
 
 // Styles
 import './style.css'
 import '@mdi/font/css/materialdesignicons.css'
 
 // Setup I18n (Basic)
-const i18n = createI18n({
-    legacy: false, // Vue 3 Composition API
-    locale: 'es',
-    fallbackLocale: 'en',
-    messages: {
-        es: {
-            hello: 'Hola Mundo',
-            title: 'Tienda Electrónica'
-        },
-        en: {
-            hello: 'Hello World',
-            title: 'Electronics Store'
-        }
-    }
-})
+import i18n from './plugins/i18n'
 
 const app = createApp(App)
 

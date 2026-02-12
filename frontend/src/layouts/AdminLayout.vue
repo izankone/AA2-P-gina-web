@@ -3,29 +3,32 @@ import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import AppFooter from '../components/common/AppFooter.vue'
+import { useI18n } from 'vue-i18n'
 
 const drawer = ref(true)
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 
+const { t } = useI18n()
+
 function logout() {
   authStore.logout()
   router.push('/login')
 }
 
-const items = [
-  { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/admin' },
-  { title: 'Productos', icon: 'mdi-package-variant', to: '/admin/products' },
-  { title: 'Categorías', icon: 'mdi-shape', to: '/admin/categories' },
-]
+const items = computed(() => [
+  { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
+  { title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' },
+  { title: t('nav.categories'), icon: 'mdi-shape', to: '/admin/categories' },
+])
 
 const pageTitle = computed(() => {
     switch (route.path) {
-        case '/admin': return 'Dashboard'
-        case '/admin/products': return 'Productos'
-        case '/admin/categories': return 'Categorías'
-        default: return 'Administración'
+        case '/admin': return t('nav.dashboard')
+        case '/admin/products': return t('nav.products')
+        case '/admin/categories': return t('nav.categories')
+        default: return t('nav.admin')
     }
 })
 </script>

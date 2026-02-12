@@ -4,16 +4,18 @@ import { useProductStore } from '../../stores/products'
 import type { Product } from '../../core/interfaces'
 import ProductItem from './components/ProductItem.vue'
 import ConfirmDialog from '../../components/common/ConfirmDialog.vue'
+import { useI18n } from 'vue-i18n'
 
 const productStore = useProductStore()
 const confirmDialog = ref() // Template ref
+const { t } = useI18n()
 
 onMounted(async () => {
   await productStore.fetchProducts()
 })
 
 async function deleteItem(item: Product) {
-  if (await confirmDialog.value.open('Eliminar Producto', '¿Estás seguro de que quieres eliminar este producto?')) {
+  if (await confirmDialog.value.open(t('common.delete'), t('products.deleteConfirm'))) {
     await productStore.deleteProduct(item.id)
   }
 }
@@ -22,8 +24,8 @@ async function deleteItem(item: Product) {
 <template>
   <div>
     <div class="d-flex justify-space-between align-center mb-4">
-      <h1 class="text-h4">Productos</h1>
-      <v-btn color="primary" to="/admin/products/create" prepend-icon="mdi-plus">Nuevo Producto</v-btn>
+      <h1 class="text-h4">{{ t('products.title') }}</h1>
+      <v-btn color="primary" to="/admin/products/create" prepend-icon="mdi-plus">{{ t('products.new') }}</v-btn>
     </div>
 
     <v-row v-if="productStore.loading">
@@ -50,7 +52,7 @@ async function deleteItem(item: Product) {
     </v-row>
     
     <v-alert v-if="!productStore.loading && productStore.products.length === 0" type="info" class="mt-4">
-        No hay productos registrados.
+        {{ t('products.noProducts') }}
     </v-alert>
 
     <ConfirmDialog ref="confirmDialog" />
