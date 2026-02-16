@@ -17,14 +17,18 @@ export const useAuthStore = defineStore('auth', () => {
     const isAdmin = computed(() => user.value?.role === 'admin')
 
     async function login(email: string, password: string): Promise<boolean> {
-        // Simulación de login consultando el backend "users"
-        const users = await get<User[]>('users')
-        const found = users.find(u => u.email === email && (u as any).password === password)
+        try {
+            // Buscamos usuario por email y password directamente en el servidor
+            const users = await get<User[]>(`users?email=${email}&password=${password}`)
 
-        if (found) {
-            user.value = found
-            localStorage.setItem('user', JSON.stringify(found))
-            return true
+            if (users.length > 0) {
+                const found = users[0]
+                user.value = found
+                localStorage.setItem('user', JSON.stringify(found))
+                return true
+            }
+        } catch (error) {
+            console.error('Error en login:', error)
         }
         return false
     }
@@ -34,15 +38,38 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.removeItem('user')
     }
 
-    // Método register simulado
     async function register(userData: Omit<User, 'id' | 'role'>) {
-        // En un caso real, POST /register. Aquí simulamos éxito.
-        // Asignamos rol user por defecto
-        const newUser = { ...userData, role: 'user', id: Date.now() } // ID temporal
-        // No guardamos en db.json porque json-server auth es complejo, simulamos login directo
-        user.value = newUser as User;
-        localStorage.setItem('user', JSON.stringify(newUser));
-        return true;
+        try {
+            // Verificamos si ya existe el email
+            const existing = await get<User[]>(`users?email=${userData.email}`)
+            if (existing.length > 0) {
+                console.warn('El usuario ya existe')
+                return false
+            }
+
+            // Creamos el nuevo usuario con rol 'user'
+            // @ts-ignore: el servicio post necesita mejoras de tipado o importación directa
+            const response = await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    ...userData,
+                    role: 'user'
+                })
+            })
+
+            if (response.ok) {
+                const newUser = await response.json()
+                user.value = newUser
+                localStorage.setItem('user', JSON.stringify(newUser))
+                return true
+            }
+        } catch (error) {
+            console.error('Error al registrar:', error)
+        }
+        return false
     }
 
     return { user, isAuthenticated, isAdmin, login, logout, register }
