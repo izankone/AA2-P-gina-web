@@ -1,17 +1,17 @@
 
 <script setup lang="ts">
-import { useTheme } from 'vuetify'
+import { useThemeStore } from '../../stores/theme'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 import { useI18n } from 'vue-i18n'
 
-const theme = useTheme()
+const themeStore = useThemeStore()
 const router = useRouter()
 const authStore = useAuthStore()
 const { t, locale } = useI18n()
 
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+function setTheme(themeName: string) {
+  themeStore.setTheme(themeName)
 }
 
 function handleAuthAction() {
@@ -48,7 +48,43 @@ function changeLocale(lang: string) {
         </v-list>
       </v-menu>
 
-      <v-btn icon="mdi-theme-light-dark" @click="toggleTheme"></v-btn>
+      <v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon="mdi-palette"></v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="setTheme('light')" value="light">
+            <template v-slot:prepend>
+              <v-icon icon="mdi-white-balance-sunny"></v-icon>
+            </template>
+            <v-list-item-title>Claro</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="setTheme('dark')" value="dark">
+            <template v-slot:prepend>
+              <v-icon icon="mdi-weather-night"></v-icon>
+            </template>
+            <v-list-item-title>Oscuro</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="setTheme('blueTheme')" value="blueTheme">
+            <template v-slot:prepend>
+              <v-icon icon="mdi-water" color="blue"></v-icon>
+            </template>
+            <v-list-item-title>Azul</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="setTheme('greenTheme')" value="greenTheme">
+            <template v-slot:prepend>
+              <v-icon icon="mdi-leaf" color="green"></v-icon>
+            </template>
+            <v-list-item-title>Verde</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="setTheme('purpleTheme')" value="purpleTheme">
+            <template v-slot:prepend>
+              <v-icon icon="mdi-circle-slice-8" color="purple"></v-icon>
+            </template>
+            <v-list-item-title>Alto Contraste</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       
       <v-btn 
         :prepend-icon="authStore.isAuthenticated ? 'mdi-account-circle' : 'mdi-login'"

@@ -11,6 +11,12 @@ const router = useRouter()
 const route = useRoute()
 
 const { t } = useI18n()
+import { useThemeStore } from '../stores/theme'
+const themeStore = useThemeStore()
+
+function setTheme(themeName: string) {
+  themeStore.setTheme(themeName)
+}
 
 function logout() {
   authStore.logout()
@@ -58,7 +64,47 @@ const pageTitle = computed(() => {
         </template>
     </v-navigation-drawer>
 
-    <v-app-bar :title="pageTitle" @click:nav-icon="drawer = !drawer"></v-app-bar>
+    <v-app-bar :title="pageTitle" @click:nav-icon="drawer = !drawer">
+      <template v-slot:append>
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" icon="mdi-palette"></v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="setTheme('light')" value="light">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-white-balance-sunny"></v-icon>
+              </template>
+              <v-list-item-title>Claro</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="setTheme('dark')" value="dark">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-weather-night"></v-icon>
+              </template>
+              <v-list-item-title>Oscuro</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="setTheme('blueTheme')" value="blueTheme">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-water" color="blue"></v-icon>
+              </template>
+              <v-list-item-title>Azul</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="setTheme('greenTheme')" value="greenTheme">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-leaf" color="green"></v-icon>
+              </template>
+              <v-list-item-title>Verde</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="setTheme('purpleTheme')" value="purpleTheme">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-circle-slice-8" color="purple"></v-icon>
+              </template>
+              <v-list-item-title>Alto Contraste</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
+    </v-app-bar>
 
     <v-main>
       <v-container fluid>
