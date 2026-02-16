@@ -23,11 +23,18 @@ function logout() {
   router.push('/login')
 }
 
-const items = computed(() => [
-  { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
-  { title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' },
-  { title: t('nav.categories'), icon: 'mdi-shape', to: '/admin/categories' },
-])
+const items = computed(() => {
+  const menuItems = [
+    { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
+    { title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' },
+  ]
+
+  if (authStore.canManageCategories) {
+    menuItems.push({ title: t('nav.categories'), icon: 'mdi-shape', to: '/admin/categories' })
+  }
+
+  return menuItems
+})
 
 const pageTitle = computed(() => {
     switch (route.path) {

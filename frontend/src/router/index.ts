@@ -61,7 +61,8 @@ const router = createRouter({
                 },
                 {
                     path: 'categories',
-                    component: () => import('../views/admin/CategoryList.vue')
+                    component: () => import('../views/admin/CategoryList.vue'),
+                    meta: { requiresSuperAdmin: true }
                 },
                 {
                     path: 'categories/create',
@@ -81,6 +82,8 @@ router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         next('/login')
+    } else if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
+        next('/admin') // Redirect unauthorized access to dashboard
     } else {
         next()
     }

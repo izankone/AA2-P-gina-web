@@ -19,6 +19,6 @@ export interface User {
     id: number;
     email: string;
     name: string;
-    role: 'admin' | 'user';
+    role: 'admin' | 'user' | 'editor';
     token?: string; // Para simular auth
 }

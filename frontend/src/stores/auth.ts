@@ -14,7 +14,12 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const isAuthenticated = computed(() => !!user.value)
-    const isAdmin = computed(() => user.value?.role === 'admin')
+    const isAdmin = computed(() => user.value?.role === 'admin' || user.value?.role === 'editor')
+    const isSuperAdmin = computed(() => user.value?.role === 'admin')
+    const isEditor = computed(() => user.value?.role === 'editor')
+
+    const canManageCategories = computed(() => isSuperAdmin.value)
+    const canManageProducts = computed(() => isAdmin.value)
 
     async function login(email: string, password: string): Promise<boolean> {
         try {
@@ -72,5 +77,16 @@ export const useAuthStore = defineStore('auth', () => {
         return false
     }
 
-    return { user, isAuthenticated, isAdmin, login, logout, register }
+    return {
+        user,
+        isAuthenticated,
+        isAdmin,
+        isSuperAdmin,
+        isEditor,
+        canManageCategories,
+        canManageProducts,
+        login,
+        logout,
+        register
+    }
 })
