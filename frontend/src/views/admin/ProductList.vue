@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useProductStore } from '../../stores/products'
+import { useNotificationStore } from '../../stores/notification'
 import type { Product } from '../../core/interfaces'
 import ProductItem from './components/ProductItem.vue'
 import ConfirmDialog from '../../components/common/ConfirmDialog.vue'
 import { useI18n } from 'vue-i18n'
 
 const productStore = useProductStore()
+const notificationStore = useNotificationStore()
 const confirmDialog = ref() // Template ref
 const { t } = useI18n()
 
@@ -17,6 +19,7 @@ onMounted(async () => {
 async function deleteItem(item: Product) {
   if (await confirmDialog.value.open(t('common.delete'), t('products.deleteConfirm'))) {
     await productStore.deleteProduct(item.id)
+    notificationStore.success(t('common.delete') + ' ✓')
   }
 }
 </script>

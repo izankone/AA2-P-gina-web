@@ -41,28 +41,12 @@
   ],
   "products": [
     {
-      "id": 1,
-      "name": "MacBook Pro M3",
-      "price": 1999,
-      "stock": 10,
-      "categoryId": 1,
-      "image": "https://dummyimage.com/400x400/333/fff&text=MacBook"
-    },
-    {
       "id": 2,
       "name": "iPhone 15",
       "price": 999,
-      "stock": 25,
+      "stock": "26",
       "categoryId": 2,
       "image": "https://dummyimage.com/400x400/333/fff&text=iPhone"
-    },
-    {
-      "id": 3,
-      "name": "Teclado Mecánico RGB",
-      "price": 89,
-      "stock": 50,
-      "categoryId": 3,
-      "image": "https://dummyimage.com/400x400/333/fff&text=Keyboard"
     }
   ]
 }

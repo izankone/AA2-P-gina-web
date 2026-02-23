@@ -5,12 +5,14 @@ import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useProductStore } from '../../stores/products'
 import { useCategoryStore } from '../../stores/categories'
+import { useNotificationStore } from '../../stores/notification'
 import { useI18n } from 'vue-i18n'
 
 const route = useRoute()
 const router = useRouter()
 const productStore = useProductStore()
 const categoryStore = useCategoryStore()
+const notificationStore = useNotificationStore()
 const { t } = useI18n()
 
 const isEdit = route.params.id !== undefined
@@ -60,8 +62,10 @@ onMounted(async () => {
 const submit = handleSubmit(async (values) => {
   if (isEdit) {
     await productStore.updateProduct({ id, ...values } as any)
+    notificationStore.success(t('products.edit') + ' — ' + t('common.save') + ' ✓')
   } else {
     await productStore.createProduct(values as any)
+    notificationStore.success(t('products.create') + ' — ' + t('common.save') + ' ✓')
   }
   router.push('/admin/products')
 })

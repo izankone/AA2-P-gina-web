@@ -4,10 +4,12 @@ import { useRoute, useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useCategoryStore } from '../../stores/categories'
+import { useNotificationStore } from '../../stores/notification'
 
 const route = useRoute()
 const router = useRouter()
 const categoryStore = useCategoryStore()
+const notificationStore = useNotificationStore()
 
 const isEdit = route.params.id !== undefined
 const id = isEdit ? Number(route.params.id) : null
@@ -36,8 +38,10 @@ onMounted(async () => {
 const submit = handleSubmit(async (values) => {
     if (isEdit) {
         await categoryStore.updateCategory({ id, ...values } as any)
+        notificationStore.success('Categoría editada correctamente ✓')
     } else {
         await categoryStore.createCategory(values as any)
+        notificationStore.success('Categoría creada correctamente ✓')
     }
     router.push('/admin/categories')
 })

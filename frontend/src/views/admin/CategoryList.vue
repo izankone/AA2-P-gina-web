@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useCategoryStore } from '../../stores/categories'
+import { useNotificationStore } from '../../stores/notification'
 import type { Category } from '../../core/interfaces'
 import CategoryItem from './components/CategoryItem.vue'
 import ConfirmDialog from '../../components/common/ConfirmDialog.vue'
 
 const categoryStore = useCategoryStore()
+const notificationStore = useNotificationStore()
 const confirmDialog = ref()
 
 onMounted(async () => {
@@ -15,6 +17,7 @@ onMounted(async () => {
 async function deleteItem(item: Category) {
   if (await confirmDialog.value.open('Eliminar Categoría', '¿Estás seguro? Esta acción no se puede deshacer.')) {
      await categoryStore.deleteCategory(item.id)
+     notificationStore.success('Categoría eliminada ✓')
   }
 }
 </script>
