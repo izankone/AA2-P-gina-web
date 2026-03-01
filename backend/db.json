@@ -47,6 +47,14 @@
       "stock": "26",
       "categoryId": 2,
       "image": "https://dummyimage.com/400x400/333/fff&text=iPhone"
+    },
+    {
+      "id": 3,
+      "name": "nokia",
+      "price": "200",
+      "stock": "4",
+      "categoryId": 2,
+      "image": "https://tse4.mm.bing.net/th/id/OIP.BOa57JFpkBeYUfWJNPcQRAHaRd?rs=1&pid=ImgDetMain&o=7&rm=3"
     }
   ]
 }
