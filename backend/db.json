@@ -20,6 +20,13 @@
       "password": "editor",
       "name": "Editor User",
       "role": "editor"
+    },
+    {
+      "id": 4,
+      "name": "Maria",
+      "email": "maria@gmail.com",
+      "password": "maria",
+      "role": "user"
     }
   ],
   "categories": [
@@ -87,6 +94,16 @@
       "total": 999,
       "status": "pendiente",
       "createdAt": "2026-04-16T11:00:00Z"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "productId": 3,
+      "productName": "Portátil Pro",
+      "quantity": 1,
+      "total": 1200,
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:30:00Z"
     }
   ]
 }

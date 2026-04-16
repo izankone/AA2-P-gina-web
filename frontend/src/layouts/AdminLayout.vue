@@ -26,9 +26,12 @@ function logout() {
 const items = computed(() => {
   const menuItems = [
     { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
-    { title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' },
-    { title: t('nav.orders'), icon: 'mdi-clipboard-list', to: '/admin/orders' },
   ]
+
+  if (authStore.isAdmin) {
+    menuItems.push({ title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' })
+    menuItems.push({ title: t('nav.orders'), icon: 'mdi-clipboard-list', to: '/admin/orders' })
+  }
 
   if (authStore.canManageCategories) {
     menuItems.push({ title: t('nav.categories'), icon: 'mdi-shape', to: '/admin/categories' })

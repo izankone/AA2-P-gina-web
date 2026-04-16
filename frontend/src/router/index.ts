@@ -53,19 +53,23 @@ const router = createRouter({
                 {
                     path: '',
                     name: 'admin-dashboard',
-                    component: DashboardView
+                    component: DashboardView,
+                    meta: { requiresAdmin: true }
                 },
                 {
                     path: 'products',
-                    component: () => import('../views/admin/ProductList.vue')
+                    component: () => import('../views/admin/ProductList.vue'),
+                    meta: { requiresAdmin: true }
                 },
                 {
                     path: 'products/create',
-                    component: () => import('../views/admin/ProductForm.vue')
+                    component: () => import('../views/admin/ProductForm.vue'),
+                    meta: { requiresAdmin: true }
                 },
                 {
                     path: 'products/edit/:id',
-                    component: () => import('../views/admin/ProductForm.vue')
+                    component: () => import('../views/admin/ProductForm.vue'),
+                    meta: { requiresAdmin: true }
                 },
                 {
                     path: 'categories',
@@ -74,15 +78,18 @@ const router = createRouter({
                 },
                 {
                     path: 'categories/create',
-                    component: () => import('../views/admin/CategoryForm.vue')
+                    component: () => import('../views/admin/CategoryForm.vue'),
+                    meta: { requiresSuperAdmin: true }
                 },
                 {
                     path: 'categories/edit/:id',
-                    component: () => import('../views/admin/CategoryForm.vue')
+                    component: () => import('../views/admin/CategoryForm.vue'),
+                    meta: { requiresSuperAdmin: true }
                 },
                 {
                     path: 'orders',
-                    component: OrderListView
+                    component: OrderListView,
+                    meta: { requiresAdmin: true }
                 }
 
             ]
@@ -92,13 +99,23 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
+    
+    // Si la ruta requiere auth y no está logueado
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-        next('/login')
-    } else if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
-        next('/admin') // Redirect unauthorized access to dashboard
-    } else {
-        next()
+        return next('/login')
     }
+
+    // Si requiere ser Admin y no lo es (ni es SuperAdmin)
+    if (to.meta.requiresAdmin && !authStore.isAdmin) {
+        return next('/')
+    }
+
+    // Si requiere ser SuperAdmin y no lo es
+    if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
+        return next('/admin')
+    }
+
+    next()
 })
 
 export default router
