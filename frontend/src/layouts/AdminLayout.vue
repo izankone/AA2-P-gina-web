@@ -31,6 +31,9 @@ const items = computed(() => {
   if (authStore.isAdmin) {
     menuItems.push({ title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' })
     menuItems.push({ title: t('nav.orders'), icon: 'mdi-clipboard-list', to: '/admin/orders' })
+  } else {
+    // Para usuarios normales (Izan/Maria)
+    menuItems.push({ title: t('orders.myOrders'), icon: 'mdi-package-variant-closed', to: '/my-orders' })
   }
 
   if (authStore.canManageCategories) {
@@ -53,8 +56,16 @@ const pageTitle = computed(() => {
 
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer">
-        <v-list-item title="Tienda Admin" subtitle="Panel de Control"></v-list-item>
+    <v-navigation-drawer v-model="drawer" permanent elevation="2">
+        <v-list-item 
+          class="pa-4 bg-primary"
+          :title="authStore.isAdmin ? 'Tienda Admin' : 'Mi Panel Usuario'" 
+          :subtitle="authStore.isAdmin ? 'Panel de Control' : 'Gestión Personal'"
+        >
+          <template v-slot:prepend>
+            <v-icon :icon="authStore.isAdmin ? 'mdi-store' : 'mdi-account-circle'" size="large"></v-icon>
+          </template>
+        </v-list-item>
         <v-divider></v-divider>
         <v-list density="compact" nav>
           <v-list-item 

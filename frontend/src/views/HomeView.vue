@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '../stores/auth'
 
 const theme = useTheme()
 const { t } = useI18n()
+const authStore = useAuthStore()
 
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
@@ -16,7 +18,7 @@ function toggleTheme() {
     <p class="text-body-1 mb-8">{{ t('home.subtitle') }}</p>
     
     <div class="d-flex gap-4">
-      <v-btn color="primary" to="/login" size="large" prepend-icon="mdi-login">
+      <v-btn v-if="!authStore.isAuthenticated" color="primary" to="/login" size="large" prepend-icon="mdi-login">
         {{ t('home.loginBtn') }}
       </v-btn>
       <v-btn variant="outlined" @click="toggleTheme" size="large" prepend-icon="mdi-theme-light-dark">
