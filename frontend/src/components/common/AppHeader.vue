@@ -86,6 +86,16 @@ function changeLocale(lang: string) {
         </v-list>
       </v-menu>
       
+      <v-btn
+        v-if="authStore.isAuthenticated"
+        variant="text"
+        prepend-icon="mdi-package-variant-closed"
+        to="/my-orders"
+        class="mr-2"
+      >
+        {{ t('nav.orders') }}
+      </v-btn>
+
       <v-btn 
         :prepend-icon="authStore.isAuthenticated ? 'mdi-account-circle' : 'mdi-login'"
         variant="text" 
