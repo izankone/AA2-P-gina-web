@@ -204,6 +204,26 @@
       "status": "pendiente",
       "createdAt": "2026-04-16T15:49:29.950Z",
       "id": 14
+    },
+    {
+      "userId": 4,
+      "productId": 2,
+      "productName": "iPhone 15",
+      "quantity": 1,
+      "total": 999,
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:50:27.170Z",
+      "id": 15
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:52:34.205Z",
+      "id": 16
     }
   ]
 }

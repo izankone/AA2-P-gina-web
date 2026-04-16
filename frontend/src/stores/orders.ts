@@ -29,8 +29,14 @@ export const useOrderStore = defineStore('orders', () => {
 
     // Crear un nuevo pedido
     async function createOrder(order: Omit<Order, 'id'>) {
-        const newOrder = await api.post<Order>('orders', order)
-        orders.value.push(newOrder)
+        try {
+            const newOrder = await api.post<Order>('orders', order)
+            orders.value.push(newOrder)
+            return true
+        } catch (error) {
+            console.error('Error creating order:', error)
+            return false
+        }
     }
 
     // Actualizar el estado de un pedido (pendiente -> enviado -> entregado)
