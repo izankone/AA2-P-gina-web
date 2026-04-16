@@ -56,5 +56,37 @@
       "categoryId": 2,
       "image": "https://media.istockphoto.com/id/517335694/es/foto/tel%C3%A9fono-m%C3%B3vil-nokia-3310.jpg?s=612x612&w=0&k=20&c=v9WhZmvASmDXQ2v2u0BGU0kxoBynBmc9qM1qswUOXjQ="
     }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "userId": 2,
+      "productId": 2,
+      "productName": "iPhone 15",
+      "quantity": 1,
+      "total": 999,
+      "status": "entregado",
+      "createdAt": "2026-04-10T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 2,
+      "total": 400,
+      "status": "enviado",
+      "createdAt": "2026-04-14T09:15:00Z"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "productId": 2,
+      "productName": "iPhone 15",
+      "quantity": 1,
+      "total": 999,
+      "status": "pendiente",
+      "createdAt": "2026-04-16T11:00:00Z"
+    }
   ]
 }
