@@ -1,18 +1,39 @@
-<script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useTheme } from 'vuetify'
 import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../stores/auth'
 import { useProductStore } from '../stores/products'
+import { useOrderStore } from '../stores/orders'
 
 const theme = useTheme()
 const { t } = useI18n()
 const authStore = useAuthStore()
 const productStore = useProductStore()
+const orderStore = useOrderStore()
+
+const showSuccess = ref(false)
 
 onMounted(async () => {
   await productStore.fetchProducts()
 })
+
+async function buyProduct(product: any) {
+  if (!authStore.user) return
+  
+  const success = await orderStore.createOrder({
+    userId: authStore.user.id,
+    productId: product.id,
+    productName: product.name,
+    quantity: 1,
+    total: product.price,
+    status: 'pendiente',
+    createdAt: new Date().toISOString()
+  })
+
+  if (success) {
+    showSuccess.value = true
+  }
+}
 
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
@@ -21,6 +42,13 @@ function toggleTheme() {
 
 <template>
   <v-container :class="{ 'fill-height': !authStore.isAuthenticated }">
+    <!-- Snackbar de Éxito -->
+    <v-snackbar v-model="showSuccess" color="success" timeout="3000">
+      Pedido realizado con éxito. ¡Gracias!
+      <template v-slot:actions>
+        <v-btn variant="text" @click="showSuccess = false">Cerrar</v-btn>
+      </template>
+    </v-snackbar>
     <!-- Hero Section -->
     <v-row align="center" justify="center" class="text-center mb-10 mt-5">
       <v-col cols="12">
@@ -89,6 +117,7 @@ function toggleTheme() {
                 color="primary"
                 block
                 prepend-icon="mdi-cart-plus"
+                @click="buyProduct(product)"
               >
                 Comprar ahora
               </v-btn>

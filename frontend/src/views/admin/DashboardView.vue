@@ -49,7 +49,7 @@ onMounted(async () => {
     <!-- DASHBOARD USUARIO NORMAL (Izan/Maria) -->
     <v-row v-else>
       <v-col cols="12" md="6">
-        <v-card color="info" theme="dark" elevation="4" to="/admin/orders">
+        <v-card color="info" theme="dark" elevation="4" to="/my-orders">
             <v-card-title class="text-h5">🛒 Mis Pedidos Totales</v-card-title>
             <v-card-text class="text-h2 text-center py-4">
                 {{ orderStore.orders.length }}
