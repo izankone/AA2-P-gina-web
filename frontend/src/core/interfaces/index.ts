@@ -22,3 +22,14 @@ export interface User {
     role: 'admin' | 'user' | 'editor';
     token?: string; // Para simular auth
 }
+
+export interface Order {
+    id: number;
+    userId: number;
+    productId: number;
+    productName: string;
+    quantity: number;
+    total: number;
+    status: 'pendiente' | 'enviado' | 'entregado';
+    createdAt: string;
+}
