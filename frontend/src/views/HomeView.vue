@@ -25,3 +25,6 @@ function toggleTheme() {
     </div>
   </v-container>
 </template>
+
+<style scoped>
+</style>
