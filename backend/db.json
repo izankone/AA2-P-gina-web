@@ -104,6 +104,106 @@
       "total": 1200,
       "status": "pendiente",
       "createdAt": "2026-04-16T15:30:00Z"
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:18.311Z",
+      "id": 5
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:18.881Z",
+      "id": 6
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:19.057Z",
+      "id": 7
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:19.249Z",
+      "id": 8
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:19.429Z",
+      "id": 9
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:33.587Z",
+      "id": 10
+    },
+    {
+      "userId": 4,
+      "productId": 2,
+      "productName": "iPhone 15",
+      "quantity": 1,
+      "total": 999,
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:34.423Z",
+      "id": 11
+    },
+    {
+      "userId": 4,
+      "productId": 2,
+      "productName": "iPhone 15",
+      "quantity": 1,
+      "total": 999,
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:41:56.694Z",
+      "id": 12
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:49:29.270Z",
+      "id": 13
+    },
+    {
+      "userId": 4,
+      "productId": 3,
+      "productName": "nokia",
+      "quantity": 1,
+      "total": "200",
+      "status": "pendiente",
+      "createdAt": "2026-04-16T15:49:29.950Z",
+      "id": 14
     }
   ]
 }

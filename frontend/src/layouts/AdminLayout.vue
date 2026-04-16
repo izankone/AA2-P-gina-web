@@ -25,6 +25,7 @@ function logout() {
 
 const items = computed(() => {
   const menuItems = [
+    { title: 'Ir a la Tienda', icon: 'mdi-store', to: '/' },
     { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
   ]
 

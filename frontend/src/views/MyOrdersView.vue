@@ -23,7 +23,12 @@ const statusColor: Record<string, string> = {
 
 <template>
   <v-container>
-    <h1 class="text-h4 mb-4">{{ t('orders.myOrders') }}</h1>
+    <div class="d-flex align-center justify-space-between mb-6">
+      <h1 class="text-h4 font-weight-bold">{{ t('orders.myOrders') }}</h1>
+      <v-btn color="primary" variant="outlined" to="/" prepend-icon="mdi-arrow-left">
+        Seguir Comprando
+      </v-btn>
+    </div>
 
     <v-row v-if="orderStore.loading">
       <v-col cols="12" class="text-center">

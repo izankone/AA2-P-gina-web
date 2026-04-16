@@ -44,8 +44,9 @@ function toggleTheme() {
 <template>
   <v-container :class="{ 'fill-height': !authStore.isAuthenticated }">
     <!-- Snackbar de Éxito -->
-    <v-snackbar v-model="showSuccess" color="success" timeout="3000">
-      Pedido realizado con éxito. ¡Gracias!
+    <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="top">
+      <v-icon icon="mdi-check-circle" class="mr-2"></v-icon>
+      ¡Pedido realizado! Has comprado un producto con éxito.
       <template v-slot:actions>
         <v-btn variant="text" @click="showSuccess = false">Cerrar</v-btn>
       </template>
