@@ -20,19 +20,19 @@ const statusColor: Record<string, string> = {
 
 async function changeStatus(id: number, status: 'pendiente' | 'enviado' | 'entregado') {
   await orderStore.updateOrderStatus(id, status)
-  notificationStore.success('Estado actualizado ✓')
+  notificationStore.success(t('orders.statusUpdated') + ' ✓')
 }
 
 async function deleteOrder(id: number) {
   await orderStore.deleteOrder(id)
-  notificationStore.success('Pedido eliminado ✓')
+  notificationStore.success(t('orders.deleted') + ' ✓')
 }
 </script>
 
 <template>
   <div>
     <div class="d-flex justify-space-between align-center mb-4">
-      <h1 class="text-h4">Gestión de Pedidos</h1>
+      <h1 class="text-h4">{{ t('orders.title') }}</h1>
     </div>
 
     <v-row v-if="orderStore.loading">
@@ -44,14 +44,14 @@ async function deleteOrder(id: number) {
     <v-table v-else>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Usuario ID</th>
-          <th>Producto</th>
-          <th>Cantidad</th>
-          <th>Total</th>
-          <th>Estado</th>
-          <th>Fecha</th>
-          <th>Acciones</th>
+          <th>{{ t('orders.fields.id') }}</th>
+          <th>{{ t('orders.fields.userId') }}</th>
+          <th>{{ t('orders.fields.product') }}</th>
+          <th>{{ t('orders.fields.quantity') }}</th>
+          <th>{{ t('orders.fields.total') }}</th>
+          <th>{{ t('orders.fields.status') }}</th>
+          <th>{{ t('orders.fields.date') }}</th>
+          <th>{{ t('common.actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -63,10 +63,10 @@ async function deleteOrder(id: number) {
           <td>{{ order.total }} €</td>
           <td>
             <v-chip :color="statusColor[order.status]" size="small">
-              {{ order.status }}
+              {{ t(`orders.status.${order.status}`) }}
             </v-chip>
           </td>
-          <td>{{ new Date(order.createdAt).toLocaleDateString('es-ES') }}</td>
+          <td>{{ new Date(order.createdAt).toLocaleDateString(locale) }}</td>
           <td>
             <v-menu>
               <template #activator="{ props }">
@@ -76,7 +76,7 @@ async function deleteOrder(id: number) {
                 <v-list-item
                   v-for="estado in ['pendiente', 'enviado', 'entregado']"
                   :key="estado"
-                  :title="estado"
+                  :title="t(`orders.status.${estado}`)"
                   @click="changeStatus(order.id, estado as 'pendiente' | 'enviado' | 'entregado')"
                 />
               </v-list>
@@ -98,7 +98,7 @@ async function deleteOrder(id: number) {
       type="info"
       class="mt-4"
     >
-      No hay pedidos registrados.
+      {{ t('orders.noOrders') }}
     </v-alert>
   </div>
 </template>

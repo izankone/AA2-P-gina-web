@@ -23,7 +23,7 @@ const statusColor: Record<string, string> = {
 
 <template>
   <v-container>
-    <h1 class="text-h4 mb-4">Mis Pedidos</h1>
+    <h1 class="text-h4 mb-4">{{ t('orders.myOrders') }}</h1>
 
     <v-row v-if="orderStore.loading">
       <v-col cols="12" class="text-center">
@@ -41,9 +41,9 @@ const statusColor: Record<string, string> = {
       >
         <v-card elevation="2">
           <v-card-title class="d-flex justify-space-between align-center">
-            <span>Pedido #{{ order.id }}</span>
+            <span>{{ t('orders.fields.product') }} #{{ order.id }}</span>
             <v-chip :color="statusColor[order.status]" size="small">
-              {{ order.status }}
+              {{ t(`orders.status.${order.status}`) }}
             </v-chip>
           </v-card-title>
           <v-card-text>
@@ -53,15 +53,15 @@ const statusColor: Record<string, string> = {
             </div>
             <div class="mb-1">
               <v-icon size="small" class="mr-1">mdi-counter</v-icon>
-              Cantidad: {{ order.quantity }}
+              {{ t('orders.fields.quantity') }}: {{ order.quantity }}
             </div>
             <div class="mb-1">
               <v-icon size="small" class="mr-1">mdi-currency-eur</v-icon>
-              Total: {{ order.total }} €
+              {{ t('orders.fields.total') }}: {{ order.total }} €
             </div>
             <div class="text-caption text-medium-emphasis mt-2">
               <v-icon size="small" class="mr-1">mdi-calendar</v-icon>
-              {{ new Date(order.createdAt).toLocaleDateString('es-ES') }}
+              {{ new Date(order.createdAt).toLocaleDateString(locale) }}
             </div>
           </v-card-text>
         </v-card>
@@ -73,7 +73,7 @@ const statusColor: Record<string, string> = {
       type="info"
       class="mt-4"
     >
-      Todavía no tienes pedidos.
+      {{ t('orders.noMyOrders') }}
     </v-alert>
   </v-container>
 </template>

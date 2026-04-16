@@ -29,6 +29,7 @@ export default {
         dashboard: 'Dashboard',
         products: 'Productos',
         categories: 'Categorías',
+        orders: 'Pedidos',
         admin: 'Administración'
     },
     home: {
@@ -63,5 +64,27 @@ export default {
         description: 'Descripción',
         noCategories: 'No hay categorías registradas.',
         deleteConfirm: '¿Estás seguro? Esta acción no se puede deshacer.'
+    },
+    orders: {
+        title: 'Gestión de Pedidos',
+        myOrders: 'Mis Pedidos',
+        statusUpdated: 'Estado actualizado',
+        deleted: 'Pedido eliminado',
+        noOrders: 'No hay pedidos registrados.',
+        noMyOrders: 'Todavía no tienes pedidos.',
+        fields: {
+            id: 'ID',
+            userId: 'Usuario ID',
+            product: 'Producto',
+            quantity: 'Cantidad',
+            total: 'Total',
+            status: 'Estado',
+            date: 'Fecha'
+        },
+        status: {
+            pendiente: 'pendiente',
+            enviado: 'enviado',
+            entregado: 'entregado'
+        }
     }
 }

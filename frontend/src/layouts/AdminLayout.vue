@@ -27,6 +27,7 @@ const items = computed(() => {
   const menuItems = [
     { title: t('nav.dashboard'), icon: 'mdi-view-dashboard', to: '/admin' },
     { title: t('nav.products'), icon: 'mdi-package-variant', to: '/admin/products' },
+    { title: t('nav.orders'), icon: 'mdi-clipboard-list', to: '/admin/orders' },
   ]
 
   if (authStore.canManageCategories) {
@@ -41,6 +42,7 @@ const pageTitle = computed(() => {
         case '/admin': return t('nav.dashboard')
         case '/admin/products': return t('nav.products')
         case '/admin/categories': return t('nav.categories')
+        case '/admin/orders': return t('nav.orders')
         default: return t('nav.admin')
     }
 })

@@ -6,6 +6,8 @@ const HomeView = () => import('../views/HomeView.vue')
 const LoginView = () => import('../views/LoginView.vue')
 const AdminLayout = () => import('../layouts/AdminLayout.vue')
 const DashboardView = () => import('../views/admin/DashboardView.vue')
+const OrderListView = () => import('../views/admin/OrderListView.vue')
+const MyOrdersView = () => import('../views/MyOrdersView.vue')
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +20,12 @@ const router = createRouter({
                     path: '',
                     name: 'home',
                     component: HomeView
+                },
+                {
+                    path: 'my-orders',
+                    name: 'my-orders',
+                    component: MyOrdersView,
+                    meta: { requiresAuth: true }
                 }
             ]
         },
@@ -71,6 +79,10 @@ const router = createRouter({
                 {
                     path: 'categories/edit/:id',
                     component: () => import('../views/admin/CategoryForm.vue')
+                },
+                {
+                    path: 'orders',
+                    component: OrderListView
                 }
 
             ]
