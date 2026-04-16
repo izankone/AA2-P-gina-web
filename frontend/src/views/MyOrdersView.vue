@@ -1,0 +1,79 @@
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useOrderStore } from '../stores/orders'
+import { useAuthStore } from '../stores/auth'
+import { useI18n } from 'vue-i18n'
+
+const orderStore = useOrderStore()
+const authStore = useAuthStore()
+const { t } = useI18n()
+
+onMounted(async () => {
+  if (authStore.user) {
+    await orderStore.fetchMyOrders(authStore.user.id)
+  }
+})
+
+const statusColor: Record<string, string> = {
+  pendiente: 'warning',
+  enviado: 'info',
+  entregado: 'success'
+}
+</script>
+
+<template>
+  <v-container>
+    <h1 class="text-h4 mb-4">Mis Pedidos</h1>
+
+    <v-row v-if="orderStore.loading">
+      <v-col cols="12" class="text-center">
+        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+      </v-col>
+    </v-row>
+
+    <v-row v-else>
+      <v-col
+        v-for="order in orderStore.orders"
+        :key="order.id"
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <v-card elevation="2">
+          <v-card-title class="d-flex justify-space-between align-center">
+            <span>Pedido #{{ order.id }}</span>
+            <v-chip :color="statusColor[order.status]" size="small">
+              {{ order.status }}
+            </v-chip>
+          </v-card-title>
+          <v-card-text>
+            <div class="mb-1">
+              <v-icon size="small" class="mr-1">mdi-package-variant</v-icon>
+              <strong>{{ order.productName }}</strong>
+            </div>
+            <div class="mb-1">
+              <v-icon size="small" class="mr-1">mdi-counter</v-icon>
+              Cantidad: {{ order.quantity }}
+            </div>
+            <div class="mb-1">
+              <v-icon size="small" class="mr-1">mdi-currency-eur</v-icon>
+              Total: {{ order.total }} €
+            </div>
+            <div class="text-caption text-medium-emphasis mt-2">
+              <v-icon size="small" class="mr-1">mdi-calendar</v-icon>
+              {{ new Date(order.createdAt).toLocaleDateString('es-ES') }}
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-alert
+      v-if="!orderStore.loading && orderStore.orders.length === 0"
+      type="info"
+      class="mt-4"
+    >
+      Todavía no tienes pedidos.
+    </v-alert>
+  </v-container>
+</template>
