@@ -21,6 +21,9 @@ function toggleTheme() {
       <v-btn v-if="!authStore.isAuthenticated" color="primary" to="/login" size="large" prepend-icon="mdi-login">
         {{ t('home.loginBtn') }}
       </v-btn>
+      <v-btn v-else color="primary" to="/admin" size="large" prepend-icon="mdi-view-dashboard">
+        Ir al Panel
+      </v-btn>
       <v-btn variant="outlined" @click="toggleTheme" size="large" prepend-icon="mdi-theme-light-dark">
         {{ t('home.toggleTheme') }}
       </v-btn>

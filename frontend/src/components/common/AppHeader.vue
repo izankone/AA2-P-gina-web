@@ -103,6 +103,14 @@ function changeLocale(lang: string) {
       >
         {{ authStore.isAuthenticated ? t('auth.panel') : t('auth.login') }}
       </v-btn>
+
+      <v-btn
+        v-if="authStore.isAuthenticated"
+        icon="mdi-logout"
+        color="error"
+        variant="text"
+        @click="authStore.logout(); router.push('/')"
+      ></v-btn>
     </template>
   </v-app-bar>
 </template>
