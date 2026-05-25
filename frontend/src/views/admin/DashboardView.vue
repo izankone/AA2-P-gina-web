@@ -50,7 +50,7 @@ onMounted(async () => {
     <v-row v-else>
       <v-col cols="12" md="6">
         <v-card color="info" theme="dark" elevation="4" to="/my-orders">
-            <v-card-title class="text-h5">🛒 Mis Pedidos Totales</v-card-title>
+            <v-card-title class="text-h5"> Mis Pedidos Totales</v-card-title>
             <v-card-text class="text-h2 text-center py-4">
                 {{ orderStore.orders.length }}
             </v-card-text>
@@ -62,7 +62,7 @@ onMounted(async () => {
       </v-col>
       <v-col cols="12" md="6">
         <v-card color="success" theme="dark" elevation="4">
-            <v-card-title class="text-h5">🏆 Estatus Premium</v-card-title>
+            <v-card-title class="text-h5"> Estatus Premium</v-card-title>
             <v-card-text class="text-h4 text-center py-4">
                 Usuario Activo
             </v-card-text>
