@@ -46,7 +46,7 @@ onMounted(async () => {
       </v-col>
     </v-row>
 
-    <!-- DASHBOARD USUARIO NORMAL (Izan/Maria) -->
+    <!-- DASHBOARD USUARIO NORMAL (de los que se registran como Izan/Maria) -->
     <v-row v-else>
       <v-col cols="12" md="6">
         <v-card color="info" theme="dark" elevation="4" to="/my-orders">
